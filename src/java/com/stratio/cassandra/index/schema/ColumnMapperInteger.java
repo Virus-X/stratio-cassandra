@@ -25,6 +25,8 @@ import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.Arrays;
+
 /**
  * A {@link ColumnMapper} to map an integer field.
  *
@@ -105,12 +107,12 @@ public class ColumnMapperInteger extends ColumnMapper<Integer>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
         Integer number = indexValue(name, value);
         Field field = new IntField(name, number, STORE);
         field.setBoost(boost);
-        return field;
+        return Arrays.asList(field);
     }
 
     /** {@inheritDoc} */

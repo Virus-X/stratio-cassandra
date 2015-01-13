@@ -27,6 +27,8 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A {@link ColumnMapper} to map {@link BigDecimal} values. A max number of digits for the integer a decimal parts must
@@ -178,10 +180,10 @@ public class ColumnMapperBigDecimal extends ColumnMapper<String>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
         String string = indexValue(name, value);
-        return new StringField(name, string, STORE);
+        return Arrays.asList((Field)new StringField(name, string, STORE));
     }
 
     /** {@inheritDoc} */

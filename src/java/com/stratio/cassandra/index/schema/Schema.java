@@ -153,8 +153,9 @@ public class Schema
             ColumnMapper<?> columnMapper = getMapper(name);
             if (columnMapper != null)
             {
-                Field field = columnMapper.field(fieldName, value);
-                document.add(field);
+                for(Field field : columnMapper.fields(fieldName,value)){
+                   document.add(field);
+                }
             }
         }
     }

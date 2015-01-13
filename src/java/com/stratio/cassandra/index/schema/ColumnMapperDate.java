@@ -28,6 +28,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -125,9 +126,9 @@ public class ColumnMapperDate extends ColumnMapper<Long>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
-        return new LongField(name, indexValue(name, value), STORE);
+        return Arrays.asList((Field)new LongField(name, indexValue(name, value), STORE));
     }
 
     /** {@inheritDoc} */

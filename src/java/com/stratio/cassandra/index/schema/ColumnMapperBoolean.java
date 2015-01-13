@@ -27,6 +27,8 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import java.util.Arrays;
+
 /**
  * A {@link ColumnMapper} to map a boolean field.
  *
@@ -103,9 +105,9 @@ public class ColumnMapperBoolean extends ColumnMapper<String>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
-        return new StringField(name, indexValue(name, value), STORE);
+        return Arrays.asList((Field)new StringField(name, indexValue(name, value), STORE));
     }
 
     /** {@inheritDoc} */

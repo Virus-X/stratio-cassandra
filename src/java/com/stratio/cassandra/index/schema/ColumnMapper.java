@@ -88,7 +88,7 @@ public abstract class ColumnMapper<BASE>
      * @param value The value of the Lucene {@link Field}.
      * @return The Lucene {@link Field} resulting from the mapping of {@code value}, using {@code name} as field's name.
      */
-    public abstract Field field(String name, Object value);
+    public abstract Iterable<Field> fields(String name, Object value);
 
     /**
      * Returns the Lucene type for this mapper.

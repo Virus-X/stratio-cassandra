@@ -26,6 +26,8 @@ import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.Arrays;
+
 /**
  * A {@link ColumnMapper} to map a string, tokenized field.
  *
@@ -98,10 +100,10 @@ public class ColumnMapperText extends ColumnMapper<String>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
         String text = indexValue(name, value);
-        return new TextField(name, text, STORE);
+        return Arrays.asList((Field)new TextField(name, text, STORE));
     }
 
     /** {@inheritDoc} */

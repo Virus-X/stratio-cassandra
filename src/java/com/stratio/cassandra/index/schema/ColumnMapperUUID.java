@@ -24,6 +24,7 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -88,10 +89,10 @@ public class ColumnMapperUUID extends ColumnMapper<String>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
         String uuid = indexValue(name, value);
-        return new StringField(name, uuid, STORE);
+        return Arrays.asList((Field)new StringField(name, uuid, STORE));
     }
 
     /** {@inheritDoc} */

@@ -25,6 +25,8 @@ import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.Arrays;
+
 /**
  * A {@link ColumnMapper} to map a float field.
  *
@@ -105,12 +107,12 @@ public class ColumnMapperFloat extends ColumnMapper<Float>
 
     /** {@inheritDoc} */
     @Override
-    public Field field(String name, Object value)
+    public Iterable<Field> fields(String name, Object value)
     {
         Float number = indexValue(name, value);
         Field field = new FloatField(name, number, STORE);
         field.setBoost(boost);
-        return field;
+        return Arrays.asList(field);
     }
 
     /** {@inheritDoc} */
