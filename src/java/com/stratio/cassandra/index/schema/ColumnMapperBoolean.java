@@ -59,7 +59,6 @@ public class ColumnMapperBoolean extends ColumnMapper<String>
     }
 
     /** {@inheritDoc} */
-    @Override
     public String indexValue(String name, Object value)
     {
         if (value == null)

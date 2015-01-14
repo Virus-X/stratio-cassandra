@@ -67,7 +67,6 @@ public class ColumnMapperLong extends ColumnMapper<Long>
     }
 
     /** {@inheritDoc} */
-    @Override
     public Long indexValue(String name, Object value)
     {
         if (value == null)

@@ -90,7 +90,6 @@ public class ColumnMapperBigInteger extends ColumnMapper<String>
     }
 
     /** {@inheritDoc} */
-    @Override
     public String indexValue(String name, Object value)
     {
 

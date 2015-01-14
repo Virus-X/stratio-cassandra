@@ -98,15 +98,6 @@ public abstract class ColumnMapper<BASE>
     public abstract Class<BASE> baseClass();
 
     /**
-     * Returns the {@link Column} index value resulting from the mapping of the specified object.
-     *
-     * @param field The field name.
-     * @param value The object to be mapped.
-     * @return The {@link Column} index value resulting from the mapping of the specified object.
-     */
-    public abstract BASE indexValue(String field, Object value);
-
-    /**
      * Returns the {@link Column} query value resulting from the mapping of the specified object.
      *
      * @param field The field name.

@@ -123,8 +123,6 @@ public class ColumnMapperBigDecimal extends ColumnMapper<String>
         return EMPTY_ANALYZER;
     }
 
-    /** {@inheritDoc} */
-    @Override
     public String indexValue(String name, Object value)
     {
 

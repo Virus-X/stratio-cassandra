@@ -67,7 +67,6 @@ public class ColumnMapperFloat extends ColumnMapper<Float>
     }
 
     /** {@inheritDoc} */
-    @Override
     public Float indexValue(String name, Object value)
     {
         if (value == null)

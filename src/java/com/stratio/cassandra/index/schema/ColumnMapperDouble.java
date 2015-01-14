@@ -67,7 +67,6 @@ public class ColumnMapperDouble extends ColumnMapper<Double>
     }
 
     /** {@inheritDoc} */
-    @Override
     public Double indexValue(String name, Object value)
     {
         if (value == null)

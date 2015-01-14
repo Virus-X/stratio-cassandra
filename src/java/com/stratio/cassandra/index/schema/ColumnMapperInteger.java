@@ -67,7 +67,6 @@ public class ColumnMapperInteger extends ColumnMapper<Integer>
     }
 
     /** {@inheritDoc} */
-    @Override
     public Integer indexValue(String name, Object value)
     {
         if (value == null)
