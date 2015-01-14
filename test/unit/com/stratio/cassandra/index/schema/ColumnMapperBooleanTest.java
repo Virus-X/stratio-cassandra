@@ -153,7 +153,7 @@ public class ColumnMapperBooleanTest
     public void testField()
     {
         ColumnMapperBoolean mapper = new ColumnMapperBoolean();
-        Field field = mapper.field("name", "true").iterator().next();
+        Field field = mapper.fields("name", "true").iterator().next();
         Assert.assertNotNull(field);
         Assert.assertEquals("true", field.stringValue());
         Assert.assertEquals("name", field.name());

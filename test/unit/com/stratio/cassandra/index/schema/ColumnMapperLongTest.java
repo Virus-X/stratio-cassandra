@@ -131,7 +131,7 @@ public class ColumnMapperLongTest
     public void testField()
     {
         ColumnMapperLong mapper = new ColumnMapperLong(1f);
-        Field field = mapper.field("name", "3.2").iterator().next();
+        Field field = mapper.fields("name", "3.2").iterator().next();
         Assert.assertNotNull(field);
         Assert.assertEquals(Long.valueOf(3), field.numericValue());
         Assert.assertEquals("name", field.name());

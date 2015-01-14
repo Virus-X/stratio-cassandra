@@ -140,7 +140,7 @@ public class ColumnMapperInetTest
     public void testField()
     {
         ColumnMapperInet mapper = new ColumnMapperInet();
-        Field field = mapper.field("name", "192.168.0.13").iterator().next();
+        Field field = mapper.fields("name", "192.168.0.13").iterator().next();
         Assert.assertNotNull(field);
         Assert.assertEquals("192.168.0.13", field.stringValue());
         Assert.assertEquals("name", field.name());

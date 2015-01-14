@@ -129,7 +129,7 @@ public class ColumnMapperDoubleTest
     public void testField()
     {
         ColumnMapperDouble mapper = new ColumnMapperDouble(1f);
-        Field field = mapper.field("name", "3.2").iterator().next();
+        Field field = mapper.fields("name", "3.2").iterator().next();
         Assert.assertNotNull(field);
         Assert.assertEquals(Double.valueOf(3.2d), field.numericValue());
         Assert.assertEquals("name", field.name());
