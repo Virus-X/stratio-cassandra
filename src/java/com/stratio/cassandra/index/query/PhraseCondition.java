@@ -54,17 +54,19 @@ public class PhraseCondition extends Condition
      * @param boost  The boost for this query clause. Documents matching this clause will (in addition to the normal
      *               weightings) have their score multiplied by {@code boost}. If {@code null}, then {@link
      *               #DEFAULT_BOOST} is used as default.
+     * @param mapper The value mapper for dynamic types.
      * @param field  The name of the field to be matched.
      * @param values The phrase terms to be matched.
      * @param slop   The number of other words permitted between words in phrase.
      */
     @JsonCreator
     public PhraseCondition(@JsonProperty("boost") Float boost,
+                           @JsonProperty("mapper") ColumnMapper<?> mapper,
                            @JsonProperty("field") String field,
                            @JsonProperty("values") List<String> values,
                            @JsonProperty("slop") Integer slop)
     {
-        super(boost);
+        super(boost, mapper);
 
         this.field = field;
         this.values = values;
@@ -93,7 +95,7 @@ public class PhraseCondition extends Condition
             throw new IllegalArgumentException("Slop must be positive");
         }
 
-        ColumnMapper<?> columnMapper = schema.getMapper(field);
+        ColumnMapper<?> columnMapper = getMapper(schema, field);
         if (columnMapper == null)
         {
             throw new IllegalArgumentException("Not found mapper for field " + field);

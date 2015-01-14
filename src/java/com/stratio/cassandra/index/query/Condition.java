@@ -61,16 +61,24 @@ public abstract class Condition
     @JsonProperty("boost")
     protected float boost;
 
+    /** The custom field type for dynamic fields. */
+    @JsonProperty("mapper")
+    protected final ColumnMapper<?> mapper;
+
     /**
      * Abstract {@link Condition} builder receiving the boost to be used.
      *
      * @param boost The boost for this query clause. Documents matching this clause will (in addition to the normal
      *              weightings) have their score multiplied by {@code boost}.
+     * @param mapper The value mapper for dynamic types.
      */
     @JsonCreator
-    public Condition(@JsonProperty("boost") Float boost)
+    public Condition(
+            @JsonProperty("boost") Float boost,
+            @JsonProperty("mapper") ColumnMapper<?> mapper)
     {
         this.boost = boost == null ? DEFAULT_BOOST : boost;
+        this.mapper = mapper;
     }
 
     /**
@@ -124,6 +132,14 @@ public abstract class Condition
         {
             IOUtils.closeWhileHandlingException(source);
         }
+    }
+
+    protected ColumnMapper<?> getMapper(Schema schema, String field){
+        if (mapper == null){
+            return schema.getMapper(field);
+        }
+
+        return mapper;
     }
 
 }

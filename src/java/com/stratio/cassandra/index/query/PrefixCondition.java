@@ -45,15 +45,17 @@ public class PrefixCondition extends Condition
      * @param boost The boost for this query clause. Documents matching this clause will (in addition to the normal
      *              weightings) have their score multiplied by {@code boost}. If {@code null}, then {@link
      *              #DEFAULT_BOOST} is used as default.
+     * @param mapper The value mapper for dynamic types.
      * @param field The name of the field to be matched.
      * @param value The field prefix to be matched.
      */
     @JsonCreator
     public PrefixCondition(@JsonProperty("boost") Float boost,
+                           @JsonProperty("mapper") ColumnMapper<?> mapper,
                            @JsonProperty("field") String field,
                            @JsonProperty("value") String value)
     {
-        super(boost);
+        super(boost, mapper);
 
         this.field = field;
         this.value = value;
@@ -73,7 +75,7 @@ public class PrefixCondition extends Condition
             throw new IllegalArgumentException("Field value required");
         }
 
-        ColumnMapper<?> columnMapper = schema.getMapper(field);
+        ColumnMapper<?> columnMapper = getMapper(schema, field);
         if (columnMapper == null)
         {
             throw new IllegalArgumentException("Not found mapper for field " + field);

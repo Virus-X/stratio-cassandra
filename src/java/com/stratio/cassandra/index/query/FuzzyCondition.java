@@ -77,6 +77,7 @@ public class FuzzyCondition extends Condition
      * @param boost          The boost for this query clause. Documents matching this clause will (in addition to the
      *                       normal weightings) have their score multiplied by {@code boost}. If {@code null}, then
      *                       {@link #DEFAULT_BOOST} is used as default.
+     * @param mapper The value mapper for dynamic types.
      * @param field          The field name.
      * @param value          The field fuzzy value.
      * @param maxEdits       Must be >= 0 and <= {@link LevenshteinAutomata#MAXIMUM_SUPPORTED_DISTANCE}.
@@ -89,6 +90,7 @@ public class FuzzyCondition extends Condition
      */
     @JsonCreator
     public FuzzyCondition(@JsonProperty("boost") Float boost,
+                          @JsonProperty("mapper") ColumnMapper<?> mapper,
                           @JsonProperty("field") String field,
                           @JsonProperty("value") String value,
                           @JsonProperty("max_edits") Integer maxEdits,
@@ -96,7 +98,7 @@ public class FuzzyCondition extends Condition
                           @JsonProperty("max_expansions") Integer maxExpansions,
                           @JsonProperty("transpositions") Boolean transpositions)
     {
-        super(boost);
+        super(boost, mapper);
 
         this.field = field;
         this.value = value;
@@ -132,7 +134,7 @@ public class FuzzyCondition extends Condition
             throw new IllegalArgumentException("max_expansions must be positive.");
         }
 
-        ColumnMapper<?> columnMapper = schema.getMapper(field);
+        ColumnMapper<?> columnMapper = getMapper(schema, field);
         if (columnMapper == null)
         {
             throw new IllegalArgumentException("Not found mapper for field " + field);

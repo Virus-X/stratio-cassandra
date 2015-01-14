@@ -48,13 +48,16 @@ public class MatchCondition extends Condition
      *              #DEFAULT_BOOST} is used as default.
      * @param field The name of the field to be matched.
      * @param value The value of the field to be matched.
+     * @param mapper The value mapper for dynamic types.
      */
     @JsonCreator
     public MatchCondition(@JsonProperty("boost") Float boost,
                           @JsonProperty("field") String field,
-                          @JsonProperty("value") Object value)
+                          @JsonProperty("value") Object value,
+                          @JsonProperty("mapper") ColumnMapper<?> mapper
+                          )
     {
-        super(boost);
+        super(boost, mapper);
         this.field = field;
         this.value = value;
     }
@@ -72,11 +75,12 @@ public class MatchCondition extends Condition
             throw new IllegalArgumentException("Field value required");
         }
 
-        ColumnMapper<?> columnMapper = schema.getMapper(field);
+        ColumnMapper<?> columnMapper = getMapper(schema, field);
         if (columnMapper == null)
         {
-            throw new IllegalArgumentException("Not found mapper for field " + field);
+            throw new IllegalArgumentException("Not found mapper for field " + field + ". For dynamic types you should specify mapper property.");
         }
+
         Class<?> clazz = columnMapper.baseClass();
         Query query;
         if (clazz == String.class)

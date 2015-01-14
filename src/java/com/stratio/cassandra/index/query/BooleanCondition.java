@@ -15,6 +15,7 @@
  */
 package com.stratio.cassandra.index.query;
 
+import com.stratio.cassandra.index.schema.ColumnMapper;
 import com.stratio.cassandra.index.schema.Schema;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.lucene.search.BooleanClause.Occur;
@@ -52,17 +53,19 @@ public class BooleanCondition extends Condition
      * @param boost  The boost for this query clause. Documents matching this clause will (in addition to the normal
      *               weightings) have their score multiplied by {@code boost}. If {@code null}, then {@link
      *               #DEFAULT_BOOST} is used as default.
+     * @JsonProperty("mapper") ColumnMapper<?> mapper
      * @param must   the mandatory {@link Condition}s.
      * @param should the optional {@link Condition}s.
      * @param not    the mandatory not {@link Condition}s.
      */
     @JsonCreator
     public BooleanCondition(@JsonProperty("boost") Float boost,
+                            @JsonProperty("mapper") ColumnMapper<?> mapper,
                             @JsonProperty("must") List<Condition> must,
                             @JsonProperty("should") List<Condition> should,
                             @JsonProperty("not") List<Condition> not)
     {
-        super(boost);
+        super(boost, mapper);
         this.must = must == null ? new LinkedList<Condition>() : must;
         this.should = should == null ? new LinkedList<Condition>() : should;
         this.not = not == null ? new LinkedList<Condition>() : not;

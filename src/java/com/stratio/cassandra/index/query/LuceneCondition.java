@@ -15,6 +15,7 @@
  */
 package com.stratio.cassandra.index.query;
 
+import com.stratio.cassandra.index.schema.ColumnMapper;
 import com.stratio.cassandra.index.schema.Schema;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.lucene.analysis.Analyzer;
@@ -49,15 +50,17 @@ public class LuceneCondition extends Condition
      * @param boost        The boost for this query clause. Documents matching this clause will (in addition to the
      *                     normal weightings) have their score multiplied by {@code boost}. If {@code null}, then {@link
      *                     #DEFAULT_BOOST} is used as default.
+     * @param mapper The value mapper for dynamic types.
      * @param defaultField the default field name.
      * @param query        the Lucene Query Syntax query.
      */
     @JsonCreator
     public LuceneCondition(@JsonProperty("boost") Float boost,
+                           @JsonProperty("mapper") ColumnMapper<?> mapper,
                            @JsonProperty("default_field") String defaultField,
                            @JsonProperty("query") String query)
     {
-        super(boost);
+        super(boost, mapper);
 
         this.query = query;
         this.defaultField = defaultField == null ? DEFAULT_FIELD : defaultField;
