@@ -50,6 +50,6 @@ public class MatchConditionBuilder extends ConditionBuilder<MatchCondition, Matc
     @Override
     public MatchCondition build()
     {
-        return new MatchCondition(boost, field, value);
+        return new MatchCondition(boost, mapper, field, value);
     }
 }

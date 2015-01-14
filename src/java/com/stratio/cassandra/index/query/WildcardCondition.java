@@ -54,10 +54,11 @@ public class WildcardCondition extends Condition
      */
     @JsonCreator
     public WildcardCondition(@JsonProperty("boost") Float boost,
+                             @JsonProperty("mapper") ColumnMapper<?> mapper,
                              @JsonProperty("field") String field,
                              @JsonProperty("value") String value)
     {
-        super(boost);
+        super(boost, mapper);
 
         this.field = field;
         this.value = value;

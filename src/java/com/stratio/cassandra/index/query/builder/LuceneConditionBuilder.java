@@ -61,6 +61,6 @@ public class LuceneConditionBuilder extends ConditionBuilder<LuceneCondition, Lu
     @Override
     public LuceneCondition build()
     {
-        return new LuceneCondition(boost, defaultField, query);
+        return new LuceneCondition(boost, mapper, defaultField, query);
     }
 }

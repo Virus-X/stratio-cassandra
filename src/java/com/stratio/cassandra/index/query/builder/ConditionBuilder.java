@@ -16,6 +16,7 @@
 package com.stratio.cassandra.index.query.builder;
 
 import com.stratio.cassandra.index.query.Condition;
+import com.stratio.cassandra.index.schema.ColumnMapper;
 
 /**
  * Class for building new {@link Condition}s.
@@ -26,6 +27,9 @@ public abstract class ConditionBuilder<T extends Condition, K extends ConditionB
 {
     /** The boost for the {@link Condition} to be built. */
     protected Float boost;
+
+    /** The custom mapper for the {@link Condition} to be built. */
+    protected ColumnMapper<?> mapper;
 
     /**
      * Sets the boost for the {@link Condition} to be built. Documents matching this condition will (in addition to the
@@ -52,6 +56,11 @@ public abstract class ConditionBuilder<T extends Condition, K extends ConditionB
     public K boost(Number boost)
     {
         this.boost = boost == null ? null : boost.floatValue();
+        return (K) this;
+    }
+
+    public K mapper(ColumnMapper<?> mapper){
+        this.mapper = mapper;
         return (K) this;
     }
 

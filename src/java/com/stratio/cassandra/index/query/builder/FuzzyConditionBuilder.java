@@ -110,6 +110,6 @@ public class FuzzyConditionBuilder extends ConditionBuilder<FuzzyCondition, Fuzz
     @Override
     public FuzzyCondition build()
     {
-        return new FuzzyCondition(boost, field, value, maxEdits, prefixLength, maxExpansions, transpositions);
+        return new FuzzyCondition(boost, mapper, field, value, maxEdits, prefixLength, maxExpansions, transpositions);
     }
 }

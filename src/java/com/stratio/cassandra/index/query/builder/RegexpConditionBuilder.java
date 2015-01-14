@@ -48,6 +48,6 @@ public class RegexpConditionBuilder extends ConditionBuilder<RegexpCondition, Re
     @Override
     public RegexpCondition build()
     {
-        return new RegexpCondition(boost, field, value);
+        return new RegexpCondition(boost, mapper, field, value);
     }
 }
