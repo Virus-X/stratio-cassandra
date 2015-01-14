@@ -44,13 +44,20 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
     /** The maximum depth of object field */
     private final int fieldDepthLimit;
 
+    /** The allows case insensitive searches in string fields */
+    private final boolean caseInsensitiveStrings;
+
     /**
      * Builds a new {@link ColumnMapperBlob}.
      */
     @JsonCreator
-    public ColumnMapperMgsPack(@JsonProperty("depthLimit") Integer depthLimit) {
+    public ColumnMapperMgsPack(
+            @JsonProperty("depth_limit") Integer depthLimit,
+            @JsonProperty("case_insensitive") Boolean caseInsensitiveStrings) {
+
         super(new AbstractType<?>[]{AsciiType.instance, UTF8Type.instance, BytesType.instance}, new AbstractType[]{});
         fieldDepthLimit = depthLimit == null ? DEFAULT_DEPTH_LIMIT : depthLimit;
+        this.caseInsensitiveStrings = caseInsensitiveStrings != null && caseInsensitiveStrings;
     }
 
     /**
@@ -137,7 +144,11 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
                 fields.add(new DoubleField(name, v.asFloat().toDouble(), STORE));
                 break;
             case STRING:
-                fields.add(new StringField(name, v.asString().toString(), STORE));
+                String data = caseInsensitiveStrings
+                        ? v.asString().toString().toLowerCase()
+                        : v.asString().toString();
+
+                fields.add(new StringField(name, data, STORE));
                 break;
             case BINARY:
                 fields.add(new StringField(name, Hex.bytesToHex(v.asBinary().toMessageBuffer().getArray()), STORE));

@@ -23,6 +23,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Arrays;
 
@@ -33,12 +34,14 @@ import java.util.Arrays;
  */
 public class ColumnMapperString extends ColumnMapper<String>
 {
+    /** The allows case insensitive searches in string fields */
+    private final boolean caseInsensitiveStrings;
 
     /**
      * Builds a new {@link ColumnMapperString}.
      */
     @JsonCreator
-    public ColumnMapperString()
+    public ColumnMapperString(@JsonProperty("case_insensitive") Boolean caseInsensitiveStrings)
     {
         super(new AbstractType<?>[]{
                 AsciiType.instance,
@@ -54,6 +57,7 @@ public class ColumnMapperString extends ColumnMapper<String>
                 TimestampType.instance,
                 BytesType.instance,
                 InetAddressType.instance}, new AbstractType[]{UTF8Type.instance});
+        this.caseInsensitiveStrings = caseInsensitiveStrings != null && caseInsensitiveStrings;
     }
 
     /** {@inheritDoc} */
@@ -70,10 +74,10 @@ public class ColumnMapperString extends ColumnMapper<String>
         {
             return null;
         }
-        else
-        {
-            return value.toString();
-        }
+
+        return caseInsensitiveStrings
+                ? value.toString().toLowerCase()
+                : value.toString();
     }
 
     /** {@inheritDoc} */
