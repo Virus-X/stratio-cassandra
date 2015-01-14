@@ -40,7 +40,7 @@ public class MatchConditionTest extends AbstractConditionTest
     {
 
         Map<String, ColumnMapper<?>> map = new HashMap<>();
-        map.put("name", new ColumnMapperString());
+        map.put("name", new ColumnMapperString(false));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
         MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", "casa");

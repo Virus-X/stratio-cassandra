@@ -38,7 +38,7 @@ public class WildcardConditionTest extends AbstractConditionTest
     {
 
         Map<String, ColumnMapper<?>> map = new HashMap<>();
-        map.put("name", new ColumnMapperString());
+        map.put("name", new ColumnMapperString(false));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
         WildcardCondition wildcardCondition = new WildcardCondition(0.5f, null, "name", "tr*");
