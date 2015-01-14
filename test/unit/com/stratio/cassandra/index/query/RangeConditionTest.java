@@ -44,7 +44,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperBoolean());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", "alpha", "beta", true, true);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", "alpha", "beta", true, true);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -65,7 +65,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperBoolean());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", "alpha", null, true, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", "alpha", null, true, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -87,7 +87,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInteger(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42, 43, false, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42, 43, false, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -108,7 +108,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInteger(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42, null, true, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42, null, true, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -129,7 +129,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperLong(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42L, 43, false, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42L, 43, false, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -150,7 +150,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperLong(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42f, null, true, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42f, null, true, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -171,7 +171,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperFloat(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42.42D, 43.42F, false, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42.42D, 43.42F, false, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -192,7 +192,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperFloat(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42.42f, null, true, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42.42f, null, true, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -213,7 +213,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperDouble(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42.42D, 43.42D, false, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42.42D, 43.42D, false, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -234,7 +234,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperDouble(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", 42.42D, null, true, false);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", 42.42D, null, true, false);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -255,7 +255,7 @@ public class RangeConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInet());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        RangeCondition rangeCondition = new RangeCondition(0.5f, "name", "192.168.0.01", "192.168.0.045", true, true);
+        RangeCondition rangeCondition = new RangeCondition(0.5f, null, "name", "192.168.0.01", "192.168.0.045", true, true);
         Query query = rangeCondition.query(mappers);
 
         Assert.assertNotNull(query);

@@ -42,7 +42,7 @@ public class PrefixConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperString());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        PrefixCondition prefixCondition = new PrefixCondition(0.5f, "name", "tr");
+        PrefixCondition prefixCondition = new PrefixCondition(0.5f, null, "name", "tr");
         Query query = prefixCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -61,7 +61,7 @@ public class PrefixConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInteger(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        PrefixCondition prefixCondition = new PrefixCondition(0.5f, "name", "2*");
+        PrefixCondition prefixCondition = new PrefixCondition(0.5f, null, "name", "2*");
         prefixCondition.query(mappers);
     }
 
@@ -73,7 +73,7 @@ public class PrefixConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInet());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        PrefixCondition wildcardCondition = new PrefixCondition(0.5f, "name", "192.168.");
+        PrefixCondition wildcardCondition = new PrefixCondition(0.5f, null, "name", "192.168.");
         Query query = wildcardCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -92,7 +92,7 @@ public class PrefixConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInet());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        PrefixCondition wildcardCondition = new PrefixCondition(0.5f, "name", "2001:db8:2de:0:0:0:0:e");
+        PrefixCondition wildcardCondition = new PrefixCondition(0.5f, null, "name", "2001:db8:2de:0:0:0:0:e");
         Query query = wildcardCondition.query(mappers);
 
         Assert.assertNotNull(query);

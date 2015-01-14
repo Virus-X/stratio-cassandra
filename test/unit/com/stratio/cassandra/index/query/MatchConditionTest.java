@@ -43,7 +43,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperString());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", "casa");
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", "casa");
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -60,7 +60,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInteger(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", 42);
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", 42);
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -80,7 +80,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperLong(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", 42L);
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", 42L);
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -100,7 +100,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperFloat(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", 42.42F);
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", 42.42F);
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -120,7 +120,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperDouble(1f));
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", 42.42D);
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", 42.42D);
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -140,7 +140,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperBlob());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", "0Fa1");
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", "0Fa1");
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -157,7 +157,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInet());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", "192.168.0.01");
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", "192.168.0.01");
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);
@@ -174,7 +174,7 @@ public class MatchConditionTest extends AbstractConditionTest
         map.put("name", new ColumnMapperInet());
         Schema mappers = new Schema(EnglishAnalyzer.class.getName(), map);
 
-        MatchCondition matchCondition = new MatchCondition(0.5f, "name", "2001:DB8:2de::0e13");
+        MatchCondition matchCondition = new MatchCondition(0.5f, null, "name", "2001:DB8:2de::0e13");
         Query query = matchCondition.query(mappers);
 
         Assert.assertNotNull(query);

@@ -50,7 +50,7 @@ public class PhraseConditionTest extends AbstractConditionTest
         values.add("hola");
         values.add("adios");
 
-        PhraseCondition phraseCondition = new PhraseCondition(0.5f, "name", values, 2);
+        PhraseCondition phraseCondition = new PhraseCondition(0.5f, null, "name", values, 2);
         Query query = phraseCondition.query(mappers);
         Assert.assertNotNull(query);
         Assert.assertEquals(org.apache.lucene.search.PhraseQuery.class, query.getClass());
