@@ -46,7 +46,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         @JsonSubTypes.Type(value = ColumnMapperText.class, name = "text"),
         @JsonSubTypes.Type(value = ColumnMapperUUID.class, name = "uuid"),
         @JsonSubTypes.Type(value = ColumnMapperBigDecimal.class, name = "bigdec"),
-        @JsonSubTypes.Type(value = ColumnMapperBigInteger.class, name = "bigint"),})
+        @JsonSubTypes.Type(value = ColumnMapperBigInteger.class, name = "bigint"),
+        @JsonSubTypes.Type(value = ColumnMapperMgsPack.class, name = "msgpack"),})
 public abstract class ColumnMapper<BASE>
 {
     /** A no-action analyzer for not tokenized {@link ColumnMapper} implementations. */
