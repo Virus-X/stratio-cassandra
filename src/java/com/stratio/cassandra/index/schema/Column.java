@@ -89,6 +89,11 @@ public class Column
         return nameSufix == null ? name : name + "." + nameSufix;
     }
 
+    public String getNameSuffix()
+    {
+        return nameSufix;
+    }
+
     /**
      * Returns the {@link ByteBuffer} serialized value.
      *

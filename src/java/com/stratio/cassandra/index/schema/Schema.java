@@ -27,6 +27,7 @@ import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.util.Version;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -151,6 +152,11 @@ public class Schema
             String fieldName = column.getFieldName();
             Object value = column.getValue();
             ColumnMapper<?> columnMapper = getMapper(name);
+            if (column.getNameSuffix() != null && !column.getNameSuffix().isEmpty()){
+                // Index key names in maps to be able to check key existence
+                document.add(new StringField(column.getName(), column.getNameSuffix(), Field.Store.NO));
+            }
+
             if (columnMapper != null)
             {
                 for(Field field : columnMapper.fields(fieldName,value)){
