@@ -138,10 +138,8 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
                 fields.add(new StringField(name, v.asBoolean().toBoolean() ? "true" : "false", STORE));
                 break;
             case INTEGER:
-                fields.add(new LongField(name, v.asNumber().asLong(), STORE));
-                break;
             case FLOAT:
-                fields.add(new DoubleField(name, v.asFloat().toDouble(), STORE));
+                fields.add(new DoubleField(name, v.asNumber().toDouble(), STORE));
                 break;
             case STRING:
                 String data = caseInsensitiveStrings
