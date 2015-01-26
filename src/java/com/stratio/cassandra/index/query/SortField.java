@@ -45,17 +45,25 @@ public class SortField
     @JsonProperty("reverse")
     private final boolean reverse;
 
+    @JsonProperty("mapper")
+    private final ColumnMapper<?> mapper;
+
     /**
      * Returns a new {@link SortField}.
      *
      * @param field   The name of field to sortFields by.
+     * @param mapper The value mapper for dynamic types.
      * @param reverse {@code true} if natural order should be reversed.
      */
     @JsonCreator
-    public SortField(@JsonProperty("field") String field, @JsonProperty("reverse") Boolean reverse)
+    public SortField(
+            @JsonProperty("field") String field,
+            @JsonProperty("mapper") ColumnMapper<?> mapper,
+            @JsonProperty("reverse") Boolean reverse)
     {
         this.field = field;
         this.reverse = reverse == null ? DEFAULT_REVERSE : reverse;
+        this.mapper = mapper;
     }
 
     /**
@@ -70,7 +78,11 @@ public class SortField
         {
             throw new IllegalArgumentException("Field name required");
         }
-        ColumnMapper<?> columnMapper = schema.getMapper(field);
+
+        ColumnMapper<?> columnMapper = this.mapper == null
+                ? schema.getMapper(field)
+                : this.mapper;
+
         if (columnMapper == null)
         {
             throw new IllegalArgumentException("No mapper found for sortFields field " + field);
