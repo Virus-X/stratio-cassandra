@@ -56,6 +56,6 @@ public class SortFieldBuilder implements Builder<SortField>
     @Override
     public SortField build()
     {
-        return new SortField(field, reverse);
+        return new SortField(field, null, reverse);
     }
 }
