@@ -86,16 +86,22 @@ public class RowServiceSkinny extends RowService
         if (columnFamily.iterator().hasNext()) // Create or update row
         {
             Log.debug("Adding PK " + partitionKey + " term: " + term);
-
             Row row = row(partitionKey, timestamp); // Read row
             Document document = rowMapper.document(row);
             luceneIndex.upsert(term, document); // Store document
         }
         else if (columnFamily.deletionInfo() != null) // Delete full row
         {
-            Log.debug("Removing PK " + partitionKey + " term: " + term);
             Log.debug("Deletion info: " + columnFamily.deletionInfo().toString());
-            luceneIndex.delete(term);
+
+            if (columnFamily.deletionInfo().getTopLevelDeletion().isLive()){
+                // This is set or map elements deletion actually
+                Row row = row(partitionKey, timestamp); // Read row
+                Document document = rowMapper.document(row);
+                luceneIndex.upsert(term, document); // Store document
+            }else{
+                luceneIndex.delete(term);
+            }
         }
     }
 
