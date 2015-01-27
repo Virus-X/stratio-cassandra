@@ -15,6 +15,7 @@
  */
 package com.stratio.cassandra.index;
 
+import com.stratio.cassandra.index.util.Log;
 import org.apache.cassandra.config.ColumnDefinition;
 import org.apache.cassandra.db.ColumnFamily;
 import org.apache.cassandra.db.ColumnFamilyStore;
@@ -80,17 +81,20 @@ public class RowServiceSkinny extends RowService
     public void indexInner(ByteBuffer key, ColumnFamily columnFamily, long timestamp)
     {
         DecoratedKey partitionKey = rowMapper.partitionKey(key);
+        Term term = rowMapper.term(partitionKey);
 
         if (columnFamily.iterator().hasNext()) // Create or update row
         {
+            Log.debug("Adding PK " + partitionKey + " term: " + term);
+
             Row row = row(partitionKey, timestamp); // Read row
             Document document = rowMapper.document(row);
-            Term term = rowMapper.term(partitionKey);
             luceneIndex.upsert(term, document); // Store document
         }
         else if (columnFamily.deletionInfo() != null) // Delete full row
         {
-            Term term = rowMapper.term(partitionKey);
+            Log.debug("Removing PK " + partitionKey + " term: " + term);
+            Log.debug("Deletion info: " + columnFamily.deletionInfo().toString());
             luceneIndex.delete(term);
         }
     }
