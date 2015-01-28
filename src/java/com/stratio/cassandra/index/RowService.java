@@ -266,6 +266,7 @@ public abstract class RowService
         TimeCounter sortTime = new TimeCounter();
         int numDocs = 0;
         int numPages = 0;
+        int skip = search.getSkip();
 
         searchTime.start();
 
@@ -281,7 +282,7 @@ public abstract class RowService
 
         // Paginate search collecting documents
         List<SearchResult> searchResults;
-        int pageSize = Math.min(limit, MAX_PAGE_SIZE);
+        int pageSize = Math.min(limit + skip, MAX_PAGE_SIZE);
         boolean maybeMore;
         do
         {
@@ -289,6 +290,14 @@ public abstract class RowService
             luceneTime.start();
             searchResults = luceneIndex.search(query, sort, lastDoc, pageSize, fieldsToLoad(), usesRelevance);
             numDocs += searchResults.size();
+            maybeMore = searchResults.size() == pageSize;
+
+            while(skip > 0 && searchResults.size() > 0){
+                // If skip
+                skip--;
+                searchResults.remove(0);
+            }
+
             lastDoc = searchResults.isEmpty() ? null : searchResults.get(searchResults.size() - 1);
             luceneTime.stop();
 
@@ -304,7 +313,6 @@ public abstract class RowService
             collectTime.stop();
 
             // Setup next iteration
-            maybeMore = searchResults.size() == pageSize;
             pageSize = Math.min(Math.max(FILTERING_PAGE_SIZE, rows.size() - limit), MAX_PAGE_SIZE);
             numPages++;
 

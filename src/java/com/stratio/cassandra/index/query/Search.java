@@ -46,6 +46,9 @@ public class Search
     @JsonProperty("sort")
     private Sort sort;
 
+    @JsonProperty("skip")
+    private int skip;
+
     /**
      * Returns a new {@link Search} composed by the specified querying and filtering conditions.
      *
@@ -57,11 +60,14 @@ public class Search
     @JsonCreator
     public Search(@JsonProperty("query") Condition queryCondition,
                   @JsonProperty("filter") Condition filterCondition,
-                  @JsonProperty("sort") Sort sort)
+                  @JsonProperty("sort") Sort sort,
+                  @JsonProperty("skip") int skip)
+
     {
         this.queryCondition = queryCondition;
         this.filterCondition = filterCondition;
         this.sort = sort;
+        this.skip = skip;
     }
 
     /**
@@ -137,6 +143,16 @@ public class Search
     public boolean usesSorting()
     {
         return sort != null;
+    }
+
+    /**
+     * Returns count of rows to skip.
+     *
+     * @return count of rows to skip.
+     */
+    public int getSkip()
+    {
+        return this.skip;
     }
 
     /**
@@ -218,6 +234,7 @@ public class Search
         return new ToStringBuilder(this).append("queryCondition", queryCondition)
                                         .append("filterCondition", filterCondition)
                                         .append("sorting", sort)
+                                        .append("skip ", skip)
                                         .toString();
     }
 
