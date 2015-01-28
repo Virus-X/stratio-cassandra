@@ -467,7 +467,7 @@ public abstract class RowService
         {
             if (search.usesSorting()) // Sort with search itself
             {
-                return new RowComparatorSorting(rowMapper, search.getSort());
+                return new RowComparatorSorting(rowMapper, search.getSort(), schema);
             }
             else if (search.usesRelevance()) // Sort with row's score
             {

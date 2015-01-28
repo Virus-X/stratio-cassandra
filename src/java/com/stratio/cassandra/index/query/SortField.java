@@ -82,8 +82,6 @@ public class SortField
             throw new IllegalArgumentException("Field name required");
         }
 
-        Log.info("Has access to schema!!");
-
         ColumnMapper<?> columnMapper = this.mapper == null
                 ? schema.getMapper(field)
                 : this.mapper;
@@ -100,11 +98,13 @@ public class SortField
 
     /**
      * Returns a Java {@link Comparator} for {@link Columns} with the same logic as this {@link SortField}.
-     *
+     * @param schema The {@link Schema} to be used.
      * @return A Java {@link Comparator} for {@link Columns} with the same logic as this {@link SortField}.
      */
-    public Comparator<Columns> comparator()
+    public Comparator<Columns> comparator(Schema schema)
     {
+        final ColumnMapper<?> columnMapper = schema.getMapper(field);
+
         return new Comparator<Columns>()
         {
             public int compare(Columns o1, Columns o2)
@@ -132,8 +132,8 @@ public class SortField
                     return reverseFactor;
                 }
 
-                if (mapper != null){
-                    return reverse ? mapper.Compare(column2,column1): mapper.Compare(column1,column2);
+                if (columnMapper  != null){
+                    return reverse ? columnMapper.Compare(column2,column1): columnMapper.Compare(column1,column2);
                 }
 
                 AbstractType<?> type = column1.getType();

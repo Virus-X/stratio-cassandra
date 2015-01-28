@@ -38,14 +38,15 @@ public class RowComparatorSorting implements RowComparator
      * @param rowMapper The indexing {@link Schema} of the {@link Row}s to be compared.
      * @param sort      The {@link com.stratio.cassandra.index.query.Sort} inf which the {@link Row} comparison is
      *                  based.
+     * @param schema The {@link Schema} to be used.
      */
-    public RowComparatorSorting(RowMapper rowMapper, Sort sort)
+    public RowComparatorSorting(RowMapper rowMapper, Sort sort, Schema schema)
     {
         this.rowMapper = rowMapper;
         comparatorChain = new ComparatorChain<>();
         for (SortField sortField : sort.getSortFields())
         {
-            Comparator<Columns> comparator = sortField.comparator();
+            Comparator<Columns> comparator = sortField.comparator(schema);
             comparatorChain.addComparator(comparator);
         }
     }
