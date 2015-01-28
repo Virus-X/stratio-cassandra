@@ -193,11 +193,11 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
     private int CompareValues(ValueRef a, ValueRef b){
         if (a == null || a.isNil())
         {
-            return b == null || b.isNil() ? 0 : 1;
+            return b == null || b.isNil() ? 0 : -1;
         }
         if (b == null || b.isNil())
         {
-            return -1;
+            return 1;
         }
 
         Log.info("comparing " + a + " & " + b);

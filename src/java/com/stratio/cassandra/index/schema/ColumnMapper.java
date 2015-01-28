@@ -178,11 +178,11 @@ public abstract class ColumnMapper<BASE>
     public int Compare(Column column1, Column column2){
         if (column1 == null)
         {
-            return column2 == null ? 0 : 1;
+            return column2 == null ? 0 : -1;
         }
         if (column2 == null)
         {
-            return -1;
+            return 1;
         }
 
         AbstractType<?> type = column1.getType();

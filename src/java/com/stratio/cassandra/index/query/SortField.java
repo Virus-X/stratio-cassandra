@@ -109,13 +109,15 @@ public class SortField
         {
             public int compare(Columns o1, Columns o2)
             {
+                int reverseFactor = reverse ? -1: 1;
+
                 if (o1 == null)
                 {
-                    return o2 == null ? 0 : 1;
+                    return o2 == null ? 0 : -1 * reverseFactor;
                 }
                 if (o2 == null)
                 {
-                    return -1;
+                    return reverseFactor;
                 }
 
                 Column column1 = o1.getColumn(field);
@@ -123,11 +125,11 @@ public class SortField
 
                 if (column1 == null)
                 {
-                    return column2 == null ? 0 : 1;
+                    return column2 == null ? 0 : -1 * reverseFactor;
                 }
                 if (column2 == null)
                 {
-                    return -1;
+                    return reverseFactor;
                 }
 
                 if (mapper != null){
