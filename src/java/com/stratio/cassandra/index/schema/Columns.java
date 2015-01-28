@@ -108,7 +108,7 @@ public class Columns implements Iterable<Column>
     {
         for (Column column : columns)
         {
-            if (column.getName().equals(name))
+            if (column.getFieldName().equals(name))
             {
                 return column;
             }

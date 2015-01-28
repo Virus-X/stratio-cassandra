@@ -1,6 +1,7 @@
 package com.stratio.cassandra.index.schema;
 
 import com.stratio.cassandra.index.util.ByteBufferUtils;
+import com.stratio.cassandra.index.util.Log;
 import org.apache.cassandra.cql3.Constants;
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.db.marshal.AsciiType;
@@ -24,6 +25,7 @@ import org.msgpack.core.MessageUnpacker;
 import org.msgpack.value.ArrayValue;
 import org.msgpack.value.MapCursor;
 import org.msgpack.value.ValueRef;
+import org.msgpack.value.ValueType;
 import org.msgpack.value.holder.ValueHolder;
 
 import java.io.IOException;
@@ -85,22 +87,13 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
      */
     @Override
     public Iterable<Field> fields(String name, Object value) {
-        byte[] bytes = asBytes(value);
+        ValueRef unpacked = Unpack(value);
 
-        if (bytes == null) {
+        if (unpacked == null) {
             return new ArrayList<Field>();
         }
 
-        MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(bytes);
-        try {
-            ValueHolder v = new ValueHolder();
-            unpacker.unpackValue(v);
-            return extractFields(name, v.getRef(), 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<Field>();
+        return extractFields(name, unpacked, 0);
     }
 
     /**
@@ -125,6 +118,22 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
     @Override
     public String toString() {
         return new ToStringBuilder(this).toString();
+    }
+
+    @Override
+    public int Compare(Column col1, Column col2){
+        if (col1 == null)
+        {
+            return col2 == null ? 0 : 1;
+        }
+        if (col2 == null)
+        {
+            return -1;
+        }
+
+        ValueRef val1 = Unpack(col1.getValue());
+        ValueRef val2 = Unpack(col2.getValue());
+        return CompareValues(val1,val2);
     }
 
     private List<Field> extractFields(String name, ValueRef v, int depth){
@@ -179,6 +188,69 @@ public class ColumnMapperMgsPack extends ColumnMapper<String> {
         }
 
         return fields;
+    }
+
+    private int CompareValues(ValueRef a, ValueRef b){
+        if (a == null || a.isNil())
+        {
+            return b == null || b.isNil() ? 0 : 1;
+        }
+        if (b == null || b.isNil())
+        {
+            return -1;
+        }
+
+        Log.info("comparing " + a + " & " + b);
+
+       switch (a.getValueType())
+       {
+           case INTEGER:
+           case FLOAT:
+               if (b.getValueType() == ValueType.INTEGER || b.getValueType() == ValueType.FLOAT){
+                   return Double.compare(a.asNumber().toDouble(), b.asNumber().toDouble());
+               }else {
+                   // Assume numbers are always < than other types
+                    return -1;
+               }
+           case BOOLEAN:
+           case STRING:
+               if (b.getValueType() == ValueType.INTEGER || b.getValueType() == ValueType.FLOAT){
+                   return 1;
+               }else if (b.getValueType() == ValueType.STRING || b.getValueType() == ValueType.BOOLEAN){
+                   String stringA = a.getValueType() == ValueType.STRING ? a.asString().toString() : a.asBoolean().toString();
+                   String stringB = b.getValueType() == ValueType.STRING ? b.asString().toString() : b.asBoolean().toString();
+
+                   return this.caseInsensitiveStrings
+                           ? stringA.compareToIgnoreCase(stringB)
+                           : stringA.compareTo(stringB);
+
+               }else{
+                   // Assume strings are always < arrays, maps, and complex objects.
+                   return -1;
+               }
+           default:
+               if (b.getValueType() == ValueType.INTEGER ||
+                       b.getValueType() == ValueType.FLOAT ||
+                       b.getValueType() == ValueType.STRING ||
+                       b.getValueType() == ValueType.BOOLEAN)
+               {
+                   return 1;
+               }else{
+                   return 0;
+               }
+       }
+    }
+
+    private ValueRef Unpack(Object value){
+        byte [] data = asBytes(value);
+        try {
+            ValueHolder v = new ValueHolder();
+            MessagePack.newDefaultUnpacker(data).unpackValue(v);
+            return v.getRef();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private byte[] asBytes(Object value) {

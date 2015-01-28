@@ -19,6 +19,7 @@ import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.db.marshal.ListType;
 import org.apache.cassandra.db.marshal.MapType;
 import org.apache.cassandra.db.marshal.SetType;
+import org.apache.cassandra.serializers.DoubleSerializer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.document.Field;
@@ -26,6 +27,9 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.search.SortField;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import java.nio.ByteBuffer;
+import java.util.Comparator;
 
 /**
  * Class for mapping between Cassandra's columns and Lucene documents.
@@ -155,9 +159,9 @@ public abstract class ColumnMapper<BASE>
      * Returns {@code true} if the specified Cassandra type/marshaller can be used as clustering key, {@code false}.
      * otherwise.
      *
-     * @param type A Cassandra type/marshaller.
+     * @param type A Cassandral type/marshaller.
      * @return {@code true} if the specified Cassandra type/marshaller can be used as clustering key, {@code false}.
-     * otherwise.
+     * otherwise.l
      */
     public boolean supportsClustering(final AbstractType<?> type)
     {
@@ -169,6 +173,22 @@ public abstract class ColumnMapper<BASE>
             }
         }
         return false;
+    }
+
+    public int Compare(Column column1, Column column2){
+        if (column1 == null)
+        {
+            return column2 == null ? 0 : 1;
+        }
+        if (column2 == null)
+        {
+            return -1;
+        }
+
+        AbstractType<?> type = column1.getType();
+        ByteBuffer value1 = column1.getRawValue();
+        ByteBuffer value2 = column2.getRawValue();
+        return type.compare(value1, value2);
     }
 
 }

@@ -19,10 +19,12 @@ import com.stratio.cassandra.index.schema.Column;
 import com.stratio.cassandra.index.schema.ColumnMapper;
 import com.stratio.cassandra.index.schema.Columns;
 import com.stratio.cassandra.index.schema.Schema;
+import com.stratio.cassandra.index.util.Log;
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.msgpack.value.ValueRef;
 
 import java.nio.ByteBuffer;
 import java.util.Comparator;
@@ -64,6 +66,7 @@ public class SortField
         this.field = field;
         this.reverse = reverse == null ? DEFAULT_REVERSE : reverse;
         this.mapper = mapper;
+        Log.info("Created");
     }
 
     /**
@@ -78,6 +81,8 @@ public class SortField
         {
             throw new IllegalArgumentException("Field name required");
         }
+
+        Log.info("Has access to schema!!");
 
         ColumnMapper<?> columnMapper = this.mapper == null
                 ? schema.getMapper(field)
@@ -104,7 +109,6 @@ public class SortField
         {
             public int compare(Columns o1, Columns o2)
             {
-
                 if (o1 == null)
                 {
                     return o2 == null ? 0 : 1;
@@ -124,6 +128,10 @@ public class SortField
                 if (column2 == null)
                 {
                     return -1;
+                }
+
+                if (mapper != null){
+                    return reverse ? mapper.Compare(column2,column1): mapper.Compare(column1,column2);
                 }
 
                 AbstractType<?> type = column1.getType();
